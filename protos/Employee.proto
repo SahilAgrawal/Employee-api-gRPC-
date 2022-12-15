@@ -1,0 +1,103 @@
+syntax = "proto3";
+
+package Employee;
+
+import "google/api/annotations.proto";
+
+option go_package = "./gen";
+
+// Employee Payload Structure
+
+message Employee{
+    string id = 1;
+    string firstname = 2;
+    string lastname = 3;
+    string username = 4;
+    string gender = 5;
+    int32 age = 6;
+    string department = 7;
+    string designation = 8;
+    double salary = 9;
+}
+
+// Create Employee
+
+message CreateEmployeeRequest{
+    Employee employee = 1;
+}
+message CreateEmployeeResponse{
+    Employee employee = 1;
+}
+
+
+// Update Employee Details
+message UpdateEmployeeRequest{
+    string id = 1;
+    Employee employee = 2;
+}
+
+message UpdateEmployeeResponse{
+    Employee employee = 1;
+}
+
+// Get Employee By Id
+message GetEmployeeByIdRequest{
+    string id = 1;
+}
+
+message GetEmployeeByIdResponse{
+    Employee employee = 1;
+}
+
+// GetAllEmployee
+message GetEmployeesRequest{
+
+}
+
+message GetEmployeeResponse{
+    repeated Employee employee = 1;
+}
+
+// Get Employee By Id
+message DeleteEmployeeByIdRequest{
+    string id = 1;
+}
+
+message DeleteEmployeeByIdResponse{
+    int64 DeleteCount = 1;
+}
+
+
+service EmployeeService{
+    rpc CreateEmployee(CreateEmployeeRequest) returns(CreateEmployeeResponse) {
+        option (google.api.http) = {
+            post : "/v1/employee"
+            body : "*"
+        };
+    }
+
+    rpc UpdateEmployee(UpdateEmployeeRequest) returns(UpdateEmployeeResponse) {
+        option (google.api.http) = {
+            put : "/v1/employee/{id}"
+            body : "*"
+        };
+    }
+
+    rpc GetEmployeeById(GetEmployeeByIdRequest) returns(GetEmployeeByIdResponse) {
+        option (google.api.http) = {
+            get : "/v1/employee/{id}"
+        };
+    }
+
+    rpc GetEmployees(GetEmployeesRequest) returns(GetEmployeeResponse) {
+        option (google.api.http) = {
+            get : "/v1/employee"
+        };
+    }
+
+    rpc DeleteEmployee(DeleteEmployeeByIdRequest) returns(DeleteEmployeeByIdResponse) {
+        option (google.api.http) = {
+            delete : "/v1/employee/{id}"
+        };
+    }
+}
